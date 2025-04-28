@@ -1,4 +1,4 @@
-import {Box, Button} from '@mui/material'
+import {Box, Button, Stack} from '@mui/material'
 
 
 function App() {
@@ -25,18 +25,43 @@ function App() {
 
 
     }
+    const handleGetDate = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/date');
 
+            if (!response.ok) {
+                console.error('Error fetching date');
+                return;
+            }
+
+            const data = await response.json();
+            console.log('Server Time:', data.time);
+
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
 
     return (
-        <Box sx={{ textAlign: 'center', marginTop: '2rem' }}>
-            <Button
-                variant='contained'
-                color='primary'
-                onClick={handleClick}
-            >
-                Click it
-            </Button>
-        </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+                    <Stack spacing={3} direction='column' sx={{ mt: 6 }}>
+                        <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={handleClick}
+                        >
+                            Get Message
+                        </Button>
+
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            onClick={handleGetDate}
+                        >
+                            Get Date
+                        </Button>
+                    </Stack>
+            </Box>
     )
 }
 
